@@ -37,4 +37,6 @@ while line != '':
 
 	line = f.readline()
 
+	#strip quotes from country_code_alpha
+
 f.close()
