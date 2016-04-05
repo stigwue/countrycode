@@ -9,38 +9,41 @@ def write_to_file(filename, line):
     f.close()
     return
 
-#parse name_code.csv into
+from csv import reader
+
+
+#parse into
 #country_code, country name, currency, currency_code, symbol
 
 #expected output for say, Nigeria, should be:
-#234, Nigeria, Naira, NGN, =N=
-f = open('csv/name_code.csv', 'r')
-#from
-#http://data.okfn.org/data/core/country-list
-#or
-#https://github.com/datasets/country-list/blob/master/data.csv
+#      Nigeria, NG, 234, Naira, NGN, =N=
+#cols: 0      , 1 , 2  , 3    , 4  ,  5
 
-#currencies from
+#get cols 0, 1, 2, 3 and 4 from
+#https://github.com/datasets/country-codes/blob/master/data/country-codes.csv
+
+import csv
+with open('input/country-codes.csv', 'rb') as f:
+	reader = csv.reader(f)
+	col0 = ''
+	col1 = ''
+	col2 = ''
+	col3 = ''
+	col4 = ''
+	for row in reader:
+		col0 = row[0]
+		col1 = row[2]
+		col2 = row[9]
+		col3 = row[14]
+		col4 = row[17]
+		#print row
+		#print '%s,%s,%s,%s,%s' % (col0, col1, col2, col3, col4)
+
+		#send to csv output
+		write_to_file('output/new.csv', '%s,%s,%s,%s,%s' % (col0, col1, col2, col3, col4))
+
+
+#get col 5 from
 #https://github.com/mhs/world-currencies/blob/master/currencies.json
 #or
 #http://fx.sauder.ubc.ca/currency_table.html
-line = f.readline()
-
-while line != '':
-	parts = line.split(',')
-	#get last part
-	last_part = parts[len(parts) - 1]
-	#remove the trailing endline in last_part
-	last_part = last_part[:len(last_part) - 1]
-	#all other parts
-	other_parts = ''
-	for splits in range(0, len(parts) - 1):
-		other_parts = other_parts + parts[splits]
-	#print last_part, other_parts
-	print '%s, %s' % (last_part, other_parts)
-	#send to csv output
-	#write_to_file('output/new.csv', '%s, %s' % (last_part, other_parts))
-
-	line = f.readline()
-
-f.close()
