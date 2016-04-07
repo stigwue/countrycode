@@ -2,15 +2,12 @@
 
 #function to write data to file
 def write_to_file(filename, line):
-    f = open(filename, 'a')
+    f = open(filename, 'ab')
 
     f.write(line)
     f.write('\n')
     f.close()
     return
-
-from csv import reader
-
 
 #parse into
 #country_code, country name, currency, currency_code, symbol
@@ -40,10 +37,32 @@ with open('input/country-codes.csv', 'rb') as f:
 		#print '%s,%s,%s,%s,%s' % (col0, col1, col2, col3, col4)
 
 		#send to csv output
-		write_to_file('output/new.csv', '%s,%s,%s,%s,%s' % (col0, col1, col2, col3, col4))
+		#write_to_file('output/new.csv', '%s,%s,%s,%s,%s' % (col0, col1, col2, col3, col4))
 
 
 #get col 5 from
 #https://github.com/mhs/world-currencies/blob/master/currencies.json
 #or
 #http://fx.sauder.ubc.ca/currency_table.html
+import json
+f = open('input/currencies.json', 'r')
+json_string = ''
+line = f.readline()
+while line != '':
+	json_string = json_string + line
+
+	line = f.readline()
+
+currencies = json.loads(json_string) #cc/currency code, symbol, name
+for currency in currencies:
+	print currency['cc'], currency['symbol'] #, currency['name']
+
+	#send to csv output
+	#try:
+   		#write_to_file('output/cc.csv', '%s,%s' % (currency['cc'], currency['symbol']))
+   	#except:
+   		#write_to_file('output/cc.csv', '%s,%s' % (currency['cc'], currency['symbol'].encode('utf-8').strip()))
+	write_to_file('output/cc.csv', '%s,%s' % (currency['cc'], u''.join(('',currency['symbol'])).encode('utf-8').strip()))
+
+
+
