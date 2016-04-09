@@ -35,10 +35,10 @@ with open('input/country-codes.csv', 'rb') as f:
 		col3 = row[14]
 		col4 = row[17]
 		#print row
-		print '"%s",%s,%s,%s,%s' % (col0, col1, col2, col3, col4)
+		print '"%s",%s,%s,%s,"%s"' % (col0, col1, col2, col3, col4)
 
 		#send to csv output
-		write_to_file('output/csv.csv', '"%s",%s,%s,%s,%s' % (col0, col1, col2, col3, col4))
+		write_to_file('output/csv.csv', '"%s",%s,%s,%s,"%s"' % (col0, col1, col2, col3, col4))
 
 
 #get col 5 from
